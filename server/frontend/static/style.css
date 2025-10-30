@@ -124,3 +124,144 @@ img{
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
 }
+
+/* CONTACT SECTION STYLES */
+.contact-us {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.contact-header h1 {
+    font-size: 2.5em;
+    color: #4a148c; /* Warna ungu yang elegan */
+    margin-bottom: 10px;
+}
+
+.contact-header p {
+    font-size: 1.1em;
+    color: #666;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap; /* Mengizinkan wrap pada layar kecil */
+    gap: 40px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.contact-info,
+.contact-form {
+    flex: 1;
+    min-width: 300px; 
+}
+
+.contact-info h3,
+.contact-form h3 {
+    color: #4a148c;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.contact-info p {
+    margin-bottom: 15px;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    color: #555;
+}
+
+.contact-info i {
+    margin-right: 10px;
+    color: #8e24aa; /* Warna ikon */
+    font-size: 1.2em;
+}
+
+/* FORM STYLES */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Penting untuk padding agar tidak melebihi lebar 100% */
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #8e24aa;
+    outline: none;
+}
+
+.btn-submit {
+    background-color: #8e24aa;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #6a1b9a;
+    transform: translateY(-2px);
+}
+
+/* SOCIAL LINKS */
+.social-links {
+    margin-top: 30px;
+}
+
+.social-links a {
+    color: #8e24aa;
+    font-size: 1.5em;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #6a1b9a;
+}
+
+/* MEDIA QUERIES for Responsiveness */
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        padding: 30px;
+    }
+    
+    .contact-info,
+    .contact-form {
+        min-width: 100%;
+    }
+
+    .contact-header h1 {
+        font-size: 2em;
+    }
+}
