@@ -105,18 +105,35 @@ def get_dealerships(request, state="All"):
 # Create a `get_dealer_reviews` view to render the reviews of a dealer
 # def get_dealer_reviews(request,dealer_id):
 # ...
+
 def get_dealer_reviews(request, dealer_id):
-    # if dealer id has been provided
-    if(dealer_id):
-        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
-        reviews = get_request(endpoint)
-        for review_detail in reviews:
-            response = analyze_review_sentiments(review_detail['review'])
-            print(response)
-            review_detail['sentiment'] = response['sentiment']
-        return JsonResponse({"status":200,"reviews":reviews})
-    else:
-        return JsonResponse({"status":400,"message":"Bad Request"})
+    if not dealer_id:
+        return JsonResponse({"status": 400, "message": "Bad Request"})
+
+    endpoint = f"/fetchReviews/dealer/{dealer_id}"
+    reviews = get_request(endpoint)
+
+    # Kalau fetch gagal
+    if reviews is None:
+        return JsonResponse({
+            "status": 500,
+            "message": "Failed to fetch dealer reviews"
+        })
+
+    # Loop setiap review dan minta sentiment
+    for review_detail in reviews:
+        text = review_detail.get('review', '')
+
+        response = analyze_review_sentiments(text)
+        print("SENTIMENT RESPONSE:", response)
+
+        # Jika sentiment service gagal
+        if not response or "sentiment" not in response:
+            review_detail['sentiment'] = "unknown"
+        else:
+            review_detail['sentiment'] = response["sentiment"]
+
+    return JsonResponse({"status": 200, "reviews": reviews})
 
 # Create a `get_dealer_details` view to render the dealer details
 # def get_dealer_details(request, dealer_id):

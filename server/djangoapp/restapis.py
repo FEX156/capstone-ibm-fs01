@@ -13,35 +13,48 @@ sentiment_analyzer_url = os.getenv(
 
 # def get_request(endpoint, **kwargs):
 def get_request(endpoint, **kwargs):
-    params = ""
-    if(kwargs):
-        for key,value in kwargs.items():
-            params=params+key+"="+value+"&"
+    url = backend_url + endpoint
+    print("GET:", url, "PARAMS:", kwargs)
 
-    request_url = backend_url+endpoint+"?"+params
-
-    print("GET from {} ".format(request_url))
     try:
-        # Call get method of requests library with URL and parameters
-        response = requests.get(request_url)
-        return response.json()
-    except:
-        # If any error occurs
-        print("Network exception occurred")
+        response = requests.get(url, params=kwargs)
+
+        print("STATUS:", response.status_code)
+        print("RAW RESPONSE TEXT:", response.text)
+
+        # Coba parse JSON
+        try:
+            parsed = response.json()
+            print("PARSED JSON:", parsed)
+            return parsed
+        except Exception as e:
+            print("JSON PARSE ERROR:", e)
+            return None   # biar caller bisa cek
+
+    except Exception as e:
+        print("NETWORK ERROR:", e)
+        return None
 
 # def analyze_review_sentiments(text):
 # request_url = sentiment_analyzer_url+"analyze/"+text
 # Add code for retrieving sentiments
 
 def analyze_review_sentiments(text):
-    request_url = sentiment_analyzer_url+"analyze/"+text
+    url = sentiment_analyzer_url + "analyze/"
     try:
-        # Call get method of requests library with URL and parameters
-        response = requests.get(request_url)
-        return response.json()
+        response = requests.get(url, params={"text": text})
+        print("SENTIMENT RAW TEXT:", response.text)
+
+        try:
+            return response.json()
+        except Exception as e:
+            print("JSON PARSE ERROR:", e)
+            return None
+
     except Exception as err:
-        print(f"Unexpected {err=}, {type(err)=}")
-        print("Network exception occurred")
+        print(f"Network exception: {err}")
+        return None
+
 
 # def post_review(data_dict):
 # Add code for posting review
