@@ -11,6 +11,7 @@ sentiment_analyzer_url = os.getenv(
     'sentiment_analyzer_url',
     default="http://localhost:5050/")
 
+
 # def get_request(endpoint, **kwargs):
 def get_request(endpoint, **kwargs):
     url = backend_url + endpoint
@@ -22,22 +23,24 @@ def get_request(endpoint, **kwargs):
         print("STATUS:", response.status_code)
         print("RAW RESPONSE TEXT:", response.text)
 
-        # Coba parse JSON
+        # Try to parse JSON
         try:
             parsed = response.json()
             print("PARSED JSON:", parsed)
             return parsed
-        except Exception as e:
-            print("JSON PARSE ERROR:", e)
-            return None   # biar caller bisa cek
+        except Exception as exc:  # noqa: BLE001 - intentional catch for JSON errors
+            print("JSON PARSE ERROR:", exc)
+            return None
 
-    except Exception as e:
-        print("NETWORK ERROR:", e)
+    except Exception as exc:
+        print("NETWORK ERROR:", exc)
         return None
 
+
 # def analyze_review_sentiments(text):
-# request_url = sentiment_analyzer_url+"analyze/"+text
+# request_url = sentiment_analyzer_url+"analyze/+text
 # Add code for retrieving sentiments
+
 
 def analyze_review_sentiments(text):
     url = sentiment_analyzer_url + "analyze/"
@@ -47,22 +50,25 @@ def analyze_review_sentiments(text):
 
         try:
             return response.json()
-        except Exception as e:
-            print("JSON PARSE ERROR:", e)
+        except Exception as exc:  # noqa: BLE001
+            print("JSON PARSE ERROR:", exc)
             return None
 
-    except Exception as err:
-        print(f"Network exception: {err}")
+    except Exception as exc:
+        print(f"Network exception: {exc}")
         return None
 
 
 # def post_review(data_dict):
 # Add code for posting review
+
+
 def post_review(data_dict):
-    request_url = backend_url+"/insert_review"
+    request_url = backend_url + "/insert_review"
     try:
-        response = requests.post(request_url,json=data_dict)
+        response = requests.post(request_url, json=data_dict)
         print(response.json())
         return response.json()
-    except:
-        print("Network exception occurred")
+    except Exception as exc:
+        print("Network exception occurred:", exc)
+        return None
